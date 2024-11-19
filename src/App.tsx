@@ -1,14 +1,19 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
+import Chat from "./Chat";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Header />
+        <Layout>
+          <Routes>
+            <Route path="/chat" element={<Chat />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
     </div>
   );
