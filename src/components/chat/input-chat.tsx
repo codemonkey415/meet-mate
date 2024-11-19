@@ -5,6 +5,7 @@ import { RootState } from "../../store";
 import { getChatsAPI, sendMessageAPI } from "../../api/chat-api";
 import { getChatIdFromChats } from "../../utils/getChatId";
 import { fetchChats } from "../../slice/chatSlice";
+import Loading from "../Loading";
 
 const interviewee = process.env.REACT_APP_INTERVIEWEE_ID;
 
@@ -13,6 +14,7 @@ export default function InputChat() {
   const { selectedUser } = useSelector((state: RootState) => state.user);
   const { chats } = useSelector((state: RootState) => state.chat);
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export default function InputChat() {
   };
 
   const handleSend = async (e: FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
     if (!selectedUser) return;
 
@@ -49,6 +52,7 @@ export default function InputChat() {
       body: message,
     });
     setMessage("");
+    setLoading(false);
   };
 
   return (
@@ -67,11 +71,15 @@ export default function InputChat() {
           className="border border-gray-400 w-full rounded-md focus:border-blue-400 outline-none px-2"
         />
         <button className="" type="submit" disabled={!selectedUser || !message}>
-          <PaperAirplaneIcon
-            className={`w-10 ${
-              !selectedUser || !message ? "text-gray-400" : "text-blue-500"
-            }`}
-          />
+          {loading ? (
+            <Loading />
+          ) : (
+            <PaperAirplaneIcon
+              className={`w-10 ${
+                !selectedUser || !message ? "text-gray-400" : "text-blue-500"
+              }`}
+            />
+          )}
         </button>
       </form>
     </div>
