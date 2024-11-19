@@ -1,6 +1,5 @@
 export interface ChatType {
   chatId: number;
-  sinkId: number;
-  destinationId: number;
-  body: string;
+  user1Id: number;
+  user2Id: number;
 }

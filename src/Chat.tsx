@@ -7,8 +7,6 @@ import InputChat from "./components/chat/input-chat";
 import ChatBox from "./components/chat/chat-box";
 
 export default function Chat() {
-  const chats = useSelector((state: RootState) => state.chat.chats);
-
   return (
     <div className="border border-gray-200 rounded-2xl grid grid-cols-7 w-full overflow-hidden">
       <div className="col-span-2 border-r">
