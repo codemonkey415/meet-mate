@@ -1,30 +1,19 @@
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { getChatsAPI, sendMessageAPI } from "../../api/chat-api";
+import { sendMessageAPI } from "../../api/chat-api";
 import { getChatIdFromChats } from "../../utils/getChatId";
-import { fetchChats } from "../../slice/chatSlice";
 import Loading from "../Loading";
 
 const interviewee = process.env.REACT_APP_INTERVIEWEE_ID;
 
 export default function InputChat() {
-  const dispatch = useDispatch();
   const { selectedUser } = useSelector((state: RootState) => state.user);
   const { chats } = useSelector((state: RootState) => state.chat);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
-
-  useEffect(() => {
-    const getChats = async () => {
-      const chats = await getChatsAPI({ userId: Number(interviewee) });
-      dispatch(fetchChats(chats));
-    };
-
-    getChats();
-  }, []);
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);

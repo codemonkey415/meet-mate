@@ -38,7 +38,7 @@ export const receiveMessagesAPI = async ({
 }: receiveMessagesParams) => {
   try {
     const response = await axios.get(
-      `${backendUrl}/chat/send-message?chatId=${chatId}&sinceId=${sinceId}`
+      `${backendUrl}/chat/receive-messages?chatId=${chatId}&sinceId=${sinceId}`
     );
     return response.data;
   } catch (error) {
@@ -54,7 +54,7 @@ export const historicalMessagesAPI = async ({
 }: historicalMessageParams) => {
   try {
     const response = await axios.get(
-      `${backendUrl}/chat/send-message?chatId=${chatId}&pageSize=${pageSize}&pageNumber=${pageNumber}`
+      `${backendUrl}/chat/historical-messages?chatId=${chatId}&pageSize=${pageSize}&pageNumber=${pageNumber}`
     );
     return response.data;
   } catch (error) {

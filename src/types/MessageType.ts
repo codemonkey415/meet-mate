@@ -4,5 +4,5 @@ export interface MessageType {
   sinkId: number;
   destinationId: number;
   body: string;
-  createdDateTime: Date;
+  createdDateTime: number;
 }
