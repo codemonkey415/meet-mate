@@ -35,7 +35,7 @@ export default function UserList() {
         {loading &&
           Array(12)
             .fill(null)
-            .map((_, key) => <SkeletonText className="h-12" />)}
+            .map((_, key) => <SkeletonText className="h-12" key={key} />)}
         {!loading && !userList.length && (
           <div className="flex justify-center h-full items-center p-3">
             There is no users

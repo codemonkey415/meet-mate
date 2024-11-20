@@ -19,3 +19,23 @@ export interface historicalMessageParams {
   pageSize: number;
   pageNumber: number;
 }
+
+export interface createApptParams {
+  chatId: number;
+  initiatorUserId: number;
+  acceptorUserId: number;
+  appointmentDateTime: string;
+}
+
+export interface acceptApptParams {
+  appointmentId: number;
+}
+
+export interface deleteApptParams {
+  appointmentId: number;
+  deleteMessage: string;
+}
+
+export interface getApptParams {
+  userId: number;
+}
