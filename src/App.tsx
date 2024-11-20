@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Chat from "./Chat";
 import Layout from "./components/Layout";
+import Appointment from "./Appointment";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/chat" element={<Chat />} />
+            <Route path="/appointment" element={<Appointment />} />
           </Routes>
         </Layout>
       </BrowserRouter>
