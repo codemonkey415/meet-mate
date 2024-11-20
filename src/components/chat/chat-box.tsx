@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { receiveMessagesAPI } from "../../api/chat-api";
@@ -13,6 +13,16 @@ export default function ChatBox() {
   const { selectedUser, users } = useSelector((state: RootState) => state.user);
   const { chats } = useSelector((state: RootState) => state.chat);
   const { messages } = useSelector((state: RootState) => state.message);
+
+  const messagesEndRef = useRef<HTMLDivElement | null>(null); // Create a ref for the end of messages
+
+  useEffect(() => {
+    const scrollToBottom = () => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    scrollToBottom(); // Scroll to bottom when messages change
+  }, [messages]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -38,7 +48,7 @@ export default function ChatBox() {
         {messages.map((message, key) => (
           <div
             key={key}
-            className={`w-2/3 border border-gray-200 rounded-lg ${
+            className={`max-w-xl border border-gray-200 rounded-lg ${
               message.sinkId === Number(interviewee)
                 ? "self-end rounded-br-none"
                 : "self-start rounded-bl-none"
@@ -52,6 +62,7 @@ export default function ChatBox() {
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} /> {/* Reference for scrolling */}
       </div>
     </div>
   );

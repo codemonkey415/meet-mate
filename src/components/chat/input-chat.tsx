@@ -1,14 +1,16 @@
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { sendMessageAPI } from "../../api/chat-api";
 import { getChatIdFromChats } from "../../utils/getChatId";
 import Loading from "../Loading";
+import { appendMessage } from "../../slice/messageSlice";
 
 const interviewee = process.env.REACT_APP_INTERVIEWEE_ID;
 
 export default function InputChat() {
+  const dispatch = useDispatch();
   const { selectedUser } = useSelector((state: RootState) => state.user);
   const { chats } = useSelector((state: RootState) => state.chat);
 
@@ -30,16 +32,25 @@ export default function InputChat() {
       user2Id: selectedUser?.userId,
     });
 
-    console.log(chatId);
-
     if (!chatId) return;
 
-    await sendMessageAPI({
+    const messageId = await sendMessageAPI({
       chatId: chatId,
       sinkId: Number(interviewee),
       destinationId: selectedUser?.userId,
       body: message,
     });
+
+    dispatch(
+      appendMessage({
+        messageId,
+        chatId,
+        sinkId: Number(interviewee),
+        destinationId: selectedUser?.userId,
+        body: message,
+        createdDateTime: Date.now(),
+      })
+    );
     setMessage("");
     setLoading(false);
   };
