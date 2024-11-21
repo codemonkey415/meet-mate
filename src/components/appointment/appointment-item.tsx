@@ -26,19 +26,23 @@ const AppointmentItem = memo(
     };
 
     const handleDelete = async () => {
-      const res = await deleteApptAPI({
-        appointmentId: appt.appointmentId,
-        deleteMessage: "Removed",
-      });
-
-      dispatch(
-        deleteAppt({
+      try {
+        const res = await deleteApptAPI({
           appointmentId: appt.appointmentId,
           deleteMessage: "Removed",
-        })
-      );
+        });
 
-      showToast(res.message, "success");
+        dispatch(
+          deleteAppt({
+            appointmentId: appt.appointmentId,
+            deleteMessage: "Removed",
+          })
+        );
+
+        showToast(res.message, "success");
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     return (

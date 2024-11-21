@@ -10,7 +10,7 @@ const interviewee = process.env.REACT_APP_INTERVIEWEE_ID;
 
 export default function ChatBox() {
   const dispatch = useDispatch();
-  const { selectedUser, users } = useSelector((state: RootState) => state.user);
+  const { selectedUser } = useSelector((state: RootState) => state.user);
   const { chats } = useSelector((state: RootState) => state.chat);
   const { messages } = useSelector((state: RootState) => state.message);
 
@@ -27,16 +27,20 @@ export default function ChatBox() {
   useEffect(() => {
     const getMessages = async () => {
       if (!selectedUser) return;
-      const chatId = await getChatIdFromChats({
-        chats,
-        user1Id: Number(interviewee),
-        user2Id: selectedUser?.userId,
-      });
+      try {
+        const chatId = await getChatIdFromChats({
+          chats,
+          user1Id: Number(interviewee),
+          user2Id: selectedUser?.userId,
+        });
 
-      if (!chatId) return;
+        if (!chatId) return;
 
-      const messages = await receiveMessagesAPI({ chatId, sinceId: 0 });
-      dispatch(fetchMessages(messages));
+        const messages = await receiveMessagesAPI({ chatId, sinceId: 0 });
+        dispatch(fetchMessages(messages));
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getMessages();

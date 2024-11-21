@@ -26,32 +26,37 @@ export default function InputChat() {
     e.preventDefault();
     if (!selectedUser) return;
 
-    const chatId = await getChatIdFromChats({
-      chats: chats,
-      user1Id: Number(interviewee),
-      user2Id: selectedUser?.userId,
-    });
+    try {
+      const chatId = await getChatIdFromChats({
+        chats: chats,
+        user1Id: Number(interviewee),
+        user2Id: selectedUser?.userId,
+      });
 
-    if (!chatId) return;
+      if (!chatId) return;
 
-    const messageId = await sendMessageAPI({
-      chatId: chatId,
-      sinkId: Number(interviewee),
-      destinationId: selectedUser?.userId,
-      body: message,
-    });
-
-    dispatch(
-      appendMessage({
-        messageId,
-        chatId,
+      const messageId = await sendMessageAPI({
+        chatId: chatId,
         sinkId: Number(interviewee),
         destinationId: selectedUser?.userId,
         body: message,
-        createdDateTime: Date.now(),
-      })
-    );
-    setMessage("");
+      });
+
+      dispatch(
+        appendMessage({
+          messageId,
+          chatId,
+          sinkId: Number(interviewee),
+          destinationId: selectedUser?.userId,
+          body: message,
+          createdDateTime: Date.now(),
+        })
+      );
+      setMessage("");
+    } catch (err) {
+      console.log(err);
+    }
+
     setLoading(false);
   };
 
