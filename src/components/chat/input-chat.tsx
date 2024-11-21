@@ -72,7 +72,9 @@ export default function InputChat() {
         />
         <button className="" type="submit" disabled={!selectedUser || !message}>
           {loading ? (
-            <Loading />
+            <div className="w-10 h-10 flex items-center">
+              <Loading />
+            </div>
           ) : (
             <PaperAirplaneIcon
               className={`w-10 ${

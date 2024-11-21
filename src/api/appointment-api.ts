@@ -9,7 +9,7 @@ import {
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
-export const fetchAppts = async ({ userId }: getApptParams) => {
+export const getApptsAPI = async ({ userId }: getApptParams) => {
   try {
     const response = await axios.get(
       `${backendUrl}/appointment/get-all?userId=${userId}`
@@ -21,7 +21,7 @@ export const fetchAppts = async ({ userId }: getApptParams) => {
   }
 };
 
-export const createAppt = async (req: createApptParams) => {
+export const createApptAPI = async (req: createApptParams) => {
   try {
     const response = await axios.post(`${backendUrl}/appointment/create`, req);
     return response.data;
@@ -31,7 +31,7 @@ export const createAppt = async (req: createApptParams) => {
   }
 };
 
-export const acceptAppt = async ({ appointmentId }: acceptApptParams) => {
+export const acceptApptAPI = async ({ appointmentId }: acceptApptParams) => {
   try {
     const response = await axios.put(
       `${backendUrl}/appointment/accept?appointmentId=${appointmentId}`
@@ -43,7 +43,7 @@ export const acceptAppt = async ({ appointmentId }: acceptApptParams) => {
   }
 };
 
-export const deleteAppt = async (req: deleteApptParams) => {
+export const deleteApptAPI = async (req: deleteApptParams) => {
   try {
     const response = await axios.delete(`${backendUrl}/appointment/delete`, {
       data: req,

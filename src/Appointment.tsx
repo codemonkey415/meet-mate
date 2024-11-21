@@ -1,5 +1,10 @@
 import React from "react";
+import AppointmentList from "./components/appointment/appointment-list";
 
 export default function Appointment() {
-  return <div className="text-black">Appointment</div>;
+  return (
+    <div className="border border-gray-200 p-3 rounded-2xl w-full">
+      <AppointmentList />
+    </div>
+  );
 }

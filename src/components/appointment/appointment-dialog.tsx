@@ -10,10 +10,14 @@ import {
   Select,
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { getChatIdFromChats } from "../../utils/getChatId";
 import { createApptParams } from "../../api/params";
+import { createApptAPI } from "../../api/appointment-api";
+import { appendAppt } from "../../slice/appointmentSlice";
+import Loading from "../Loading";
+import { showToast } from "../toast";
 
 const interviewee = process.env.REACT_APP_INTERVIEWEE_ID;
 
@@ -23,33 +27,47 @@ interface DialogBaseProps {
 }
 
 const AppointmentDialog: React.FC<DialogBaseProps> = ({ open, handler }) => {
+  const dispatch = useDispatch();
+
   const { users } = useSelector((state: RootState) => state.user);
   const { chats } = useSelector((state: RootState) => state.chat);
 
-  const [user, setUser] = useState<number>(0);
+  const [user, setUser] = useState<number>(2);
   const [date, setDate] = useState<string>("");
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
+    try {
+      const chatId = await getChatIdFromChats({
+        chats,
+        user1Id: Number(interviewee),
+        user2Id: user,
+      });
 
-    const chatId = await getChatIdFromChats({
-      chats,
-      user1Id: Number(interviewee),
-      user2Id: user,
-    });
+      if (!chatId) return;
 
-    console.log(chatId);
+      const body: createApptParams = {
+        chatId,
+        initiatorUserId: Number(interviewee),
+        acceptorUserId: user,
+        appointmentDateTime: date,
+      };
 
-    if (!chatId) return;
+      const apptRes = await createApptAPI(body);
+      console.log(apptRes);
 
-    const body: createApptParams = {
-      chatId,
-      initiatorUserId: Number(interviewee),
-      acceptorUserId: 0,
-      appointmentDateTime: new Date().toISOString(),
-    };
+      dispatch(appendAppt({ ...body, appointmentId: apptRes.appointmentId }));
+      handler(false);
+      showToast(apptRes.message, "success");
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
 
-    console.log(body);
+    setLoading(false);
   };
   return (
     <Dialog open={open} onClose={handler} className="relative z-10">
@@ -80,6 +98,7 @@ const AppointmentDialog: React.FC<DialogBaseProps> = ({ open, handler }) => {
                     <Field className="grid grid-cols-2 gap-4 items-center">
                       <Label className="">User: </Label>
                       <Select
+                        value={user}
                         className="block w-full rounded-lg bg-white/5 py-1.5 px-3  border border-gray-200"
                         onChange={(e) => {
                           const selectedUserId = Number(e.target.value);
@@ -113,9 +132,10 @@ const AppointmentDialog: React.FC<DialogBaseProps> = ({ open, handler }) => {
             <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t mt-5">
               <button
                 type="submit"
-                className="inline-flex w-full min-w-16 justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                disabled={date === ""}
+                className="disabled:bg-gray-500 inline-flex w-full min-w-16 justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
               >
-                Ok
+                {loading ? <Loading /> : "Ok"}
               </button>
               <button
                 type="button"
