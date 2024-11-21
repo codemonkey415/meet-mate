@@ -27,16 +27,20 @@ export default function ChatBox() {
   useEffect(() => {
     const getMessages = async () => {
       if (!selectedUser) return;
-      const chatId = await getChatIdFromChats({
-        chats,
-        user1Id: Number(interviewee),
-        user2Id: selectedUser?.userId,
-      });
+      try {
+        const chatId = await getChatIdFromChats({
+          chats,
+          user1Id: Number(interviewee),
+          user2Id: selectedUser?.userId,
+        });
 
-      if (!chatId) return;
+        if (!chatId) return;
 
-      const messages = await receiveMessagesAPI({ chatId, sinceId: 0 });
-      dispatch(fetchMessages(messages));
+        const messages = await receiveMessagesAPI({ chatId, sinceId: 0 });
+        dispatch(fetchMessages(messages));
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getMessages();

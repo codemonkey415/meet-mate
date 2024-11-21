@@ -14,8 +14,12 @@ function App() {
 
   useEffect(() => {
     const fetchUserList = async () => {
-      const users = await fetchUsers();
-      dispatch(getUsers(users));
+      try {
+        const users = await fetchUsers();
+        dispatch(getUsers(users));
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchUserList();

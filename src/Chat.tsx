@@ -21,8 +21,12 @@ export default function Chat() {
 
   useEffect(() => {
     const getChats = async () => {
-      const chats = await getChatsAPI({ userId: Number(interviewee) });
-      dispatch(fetchChats(chats));
+      try {
+        const chats = await getChatsAPI({ userId: Number(interviewee) });
+        dispatch(fetchChats(chats));
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getChats();
