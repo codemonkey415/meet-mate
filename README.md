@@ -6,6 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### `npm install` or `yarn install`
 
+## Set up your .env file
+
+- Duplicate `.env.example` to `.env`
+- Use `1` as `REACT_APP_INTERVIEWEE_ID`
+
 ## Available Scripts
 
 In the project directory, you can run:
