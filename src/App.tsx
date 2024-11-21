@@ -1,24 +1,38 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
+import Chat from "./Chat";
+import Layout from "./components/Layout";
+import Appointment from "./Appointment";
+import { fetchUsers } from "./api/user-api";
+import { getUsers } from "./slice/userSlice";
+import { useDispatch } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchUserList = async () => {
+      const users = await fetchUsers();
+      dispatch(getUsers(users));
+    };
+
+    fetchUserList();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Toaster />
+      <BrowserRouter>
+        <Header />
+        <Layout>
+          <Routes>
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/appointment" element={<Appointment />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
     </div>
   );
 }
