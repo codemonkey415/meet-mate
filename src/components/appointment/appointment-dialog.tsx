@@ -9,7 +9,6 @@ import {
   Label,
   Select,
 } from "@headlessui/react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { getChatIdFromChats } from "../../utils/getChatId";

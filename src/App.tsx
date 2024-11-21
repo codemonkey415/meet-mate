@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Chat from "./Chat";
 import Layout from "./components/Layout";
@@ -28,6 +28,7 @@ function App() {
         <Header />
         <Layout>
           <Routes>
+            <Route path="/" element={<Navigate to={"/chat"} />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/appointment" element={<Appointment />} />
           </Routes>

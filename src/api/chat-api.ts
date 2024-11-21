@@ -8,7 +8,6 @@ import {
 } from "./params";
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
-const interviewee = process.env.REACT_APP_INTERVIEWEE_ID;
 
 export const getChatsAPI = async ({ userId }: getChatParams) => {
   try {

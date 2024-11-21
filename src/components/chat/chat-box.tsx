@@ -10,7 +10,7 @@ const interviewee = process.env.REACT_APP_INTERVIEWEE_ID;
 
 export default function ChatBox() {
   const dispatch = useDispatch();
-  const { selectedUser, users } = useSelector((state: RootState) => state.user);
+  const { selectedUser } = useSelector((state: RootState) => state.user);
   const { chats } = useSelector((state: RootState) => state.chat);
   const { messages } = useSelector((state: RootState) => state.message);
 

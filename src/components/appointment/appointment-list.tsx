@@ -28,7 +28,7 @@ export default function AppointmentList() {
     };
 
     getAppts();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
