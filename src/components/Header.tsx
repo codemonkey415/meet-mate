@@ -8,7 +8,11 @@ import { NavLink } from "react-router-dom";
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const renderNavLink = (to: string, label: string) => (
+  const renderNavLink = (
+    to: string,
+    label: string,
+    closeDialog: () => void
+  ) => (
     <NavLink
       to={to}
       className={({ isActive, isPending }) =>
@@ -16,6 +20,7 @@ export default function Header() {
           isPending ? "pending" : isActive ? "border-b-2 !border-blue-500" : ""
         }`
       }
+      onClick={closeDialog}
     >
       {label}
     </NavLink>
@@ -45,8 +50,12 @@ export default function Header() {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {renderNavLink("/chat", "Chat")}
-          {renderNavLink("/appointment", "Appointment")}
+          {renderNavLink("/chat", "Chat", () => {
+            setMobileMenuOpen(false);
+          })}
+          {renderNavLink("/appointment", "Appointment", () => {
+            setMobileMenuOpen(false);
+          })}
         </div>
       </nav>
       <Dialog
@@ -73,8 +82,12 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="py-6 flex flex-col gap-4">
-                {renderNavLink("/chat", "Chat")}
-                {renderNavLink("/appointment", "Appointment")}
+                {renderNavLink("/chat", "Chat", () => {
+                  setMobileMenuOpen(false);
+                })}
+                {renderNavLink("/appointment", "Appointment", () => {
+                  setMobileMenuOpen(false);
+                })}
               </div>
             </div>
           </div>

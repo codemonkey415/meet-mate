@@ -31,10 +31,10 @@ export default function AppointmentList() {
   }, []);
 
   return (
-    <div className="relative flex flex-col bg-white">
+    <>
       {!!appts.filter((appt) => !appt.deleteDateTime).length && (
-        <div className="p-3">
-          <div className="grid grid-cols-4 p-3">
+        <>
+          <div className="grid grid-cols-4 p-3 min-w-[700px]">
             <span>Initiator</span>
             <span>Acceptor</span>
             <span>Appointment Date</span>
@@ -53,13 +53,13 @@ export default function AppointmentList() {
               </div>
             )}
           </nav>
-        </div>
+        </>
       )}
       {!loading && !appts.filter((appt) => !appt.deleteDateTime).length && (
         <div className="flex justify-center h-full items-center p-3">
           There is no appointments for you.
         </div>
       )}
-    </div>
+    </>
   );
 }
